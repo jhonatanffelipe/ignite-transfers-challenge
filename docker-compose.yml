@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres
+    container_name: 'ignite-transfer-challenge-db'
+    environment:
+      restart: never
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: 'fin-api'
+    ports:
+      - 5432:5432
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  app:
+    container_name: 'ignite-transfer-challenge-backend'
+    build: .
+    command: yarn dev
+    environment:
+      NODE_ENV: development
+    ports:
+      - '3000:3000'
+      - '3001:3001'
+    volumes:
+      - .:/src/app/ignite-transfer-challenge-backend
+      - /src/app/ignite-transfer-challenge-backend/node_modules
+    links:
+      - db
+    depends_on:
+      - db
+volumes:
+  pgdata:
+    driver: local
