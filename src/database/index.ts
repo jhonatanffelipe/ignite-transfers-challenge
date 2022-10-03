@@ -10,7 +10,7 @@ export default async (): Promise<Connection> => {
     const newOptions = options as IOptions;
     newOptions.host = process.env.NODE_ENV === 'test' ? 'localhost' : 'db';
     newOptions.database =
-      process.env.NODE_ENV === 'test' ? 'fin_app_test' : newOptions.database;
+      process.env.NODE_ENV === 'test' ? 'fin_api_test' : newOptions.database;
     return createConnection({
       ...options,
     });
